@@ -13,31 +13,35 @@ namespace telegram_assistant
             CommandFactory commandFactory = new CommandFactory();
             CommandRepository commandRepository = new CommandRepository();
 
-            chat.NewChatMessageRecived += (message) => {
-                if (commandRepository.HasPendingCommand())
+            chat.NewChatMessageRecived += (chatMessage) => {
+                if (commandRepository.HasPendingCommand(chatMessage.Chat.Id))
                 {
-                    var command = commandRepository.Get();
-                    var commandResult = command.ExecuteNext(message , commandRepository);
+                    var command = commandRepository.Get(chatMessage.Chat.Id);
+                    var commandResult = command.ExecuteNext(chatMessage.Text, commandRepository , chatMessage.Chat.Id);
                     
-                    chat.ChatMessageSent(commandResult);
+                    chat.ChatMessageSent(commandResult, chatMessage);
                 }
                 else
                 {
-                    var commandName = RecognizeCommand(message);
+                    var commandName = RecognizeCommand(chatMessage.Text);
                     if (commandName != null)
                     {
                         var command = commandFactory.CreateCommand(commandName, Storage);
                         var commandResult = command.Execute();
-                        commandRepository.Add(command);
-                        chat.ChatMessageSent(commandResult);
+                        commandRepository.Add(command, chatMessage.Chat.Id);
+                        chat.ChatMessageSent(commandResult, chatMessage);
 
+                    }
+                    else
+                    {
+                        chat.ChatMessageSent("Enter value", chatMessage);
                     }
                 }
 
             };
         }
 
-        public string? RecognizeCommand(string message)
+        public string? RecognizeCommand(string? message)
         {
             string getCommand = "/get";
             string storeCommand = "/store";

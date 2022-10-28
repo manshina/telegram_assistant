@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace telegram_assistant
 {
@@ -21,31 +22,39 @@ namespace telegram_assistant
             return "Enter category";
         }
 
-        public string ExecuteNext(string message, CommandRepository commandRepository)
+        public string ExecuteNext(string message, CommandRepository commandRepository, long id)
         {
             if(state == 1)
             {
-                commandRepository.Delete();
-                return GetEntity(message);
+                commandRepository.Delete(id);
+                return GetEntity(message, id);
 
             }
             return null;
             
         }
-        public string GetEntity(string category)
+        public string GetEntity(string category, long id)
         {
             string result = "";
             if (category == "all")
             {
-                foreach (var item in _storage.GetAll())
+                try
                 {
-                    result += $"{item} \n";
+                    foreach (var item in _storage.GetAll(id))
+                    {
+                        result += $"{item} \n";
+                    }
+                    return result;
                 }
-                return result;
+                catch
+                {
+                    return "no categories exist(/store to add)";
+                }
+                
             }
             try
             {
-                foreach (var item in _storage.Get(category))
+                foreach (var item in _storage.Get(category, id))
                 {
                     result += $"{item} \n";
                 }
@@ -53,7 +62,7 @@ namespace telegram_assistant
             }
             catch
             {
-                return "no such category exist";
+                return "no such category exist(all - for all categories)";
             }
 
             

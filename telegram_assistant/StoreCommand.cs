@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace telegram_assistant
 {
-    internal class StoreCommand : ICommand, IEnumerable
+    internal class StoreCommand : ICommand
     {
         private readonly IStorage _storage;
         private string lastCategory = "";
@@ -23,7 +24,7 @@ namespace telegram_assistant
             return "Enter catrgory";
         }
 
-        public string ExecuteNext(string message , CommandRepository commandRepository)
+        public string ExecuteNext(string message , CommandRepository commandRepository, long id)
         {
             if(state == 1)
             {
@@ -35,8 +36,8 @@ namespace telegram_assistant
             else if(state == 2)
             {
                 state = 0;
-                commandRepository.Delete();
-                return AddedLink(message);
+                commandRepository.Delete(id);
+                return AddedLink(message, id);
 
             }
 
@@ -49,10 +50,10 @@ namespace telegram_assistant
 
             return "Enter link";
         }
-        public string AddedLink(string link)
+        public string AddedLink(string link, long id)
         {
 
-            _storage.AddLink(link, lastCategory);
+            _storage.AddLink(link, lastCategory , id);
             return "Link Added";
         }
 

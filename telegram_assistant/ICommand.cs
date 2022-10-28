@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace telegram_assistant
 {
@@ -10,7 +11,7 @@ namespace telegram_assistant
     {
         public string Execute();
 
-        public string ExecuteNext(string message, CommandRepository commandRepository);
+        public string ExecuteNext(string message, CommandRepository commandRepository, long id);
 
         public void Undo();
     }

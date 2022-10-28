@@ -3,33 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace telegram_assistant
 {
     internal class CommandRepository
     {
-        private ICommand lastCommand = null;
+        //private ICommand lastCommand = null;
 
-        public void Add(ICommand command)
+        Dictionary<long, ICommand> chatLastCommand = new Dictionary<long, ICommand>();
+
+        public void Add(ICommand command, long id)
         {
-            lastCommand = command;
+            //lastCommand = command;
+            chatLastCommand[id] = command;
+            
+           
         }
-        public void Delete()
+        public void Delete(long id)
         {
-            lastCommand = null;
+            //lastCommand = null;
+            chatLastCommand[id] = null;
         }
 
-        public ICommand Get()
+        public ICommand Get(long id)
         {
-            return lastCommand;
+            //return lastCommand;
+            
+            return chatLastCommand[id];
+            
         }
-        public bool HasPendingCommand()
+        public bool HasPendingCommand(long id)
         {
-            if(lastCommand != null)
+            //if(lastCommand != null)
+            //{
+            //    return true;
+            //}
+            //return false;
+            if (chatLastCommand.ContainsKey(id))
             {
-                return true;
+                if(chatLastCommand[id] != null)
+                {
+                    Console.WriteLine("tyt");
+                    return true;
+                }
+                return false;
             }
+            chatLastCommand.Add(id, null);
+            Console.WriteLine("sdec");
             return false;
+            
         }
     }
 }

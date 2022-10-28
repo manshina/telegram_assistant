@@ -12,7 +12,7 @@ namespace telegram_assistant
         
         public void Run()
         {
-            ConsoleChat chat = new ConsoleChat();
+            TelegramChat chat = new TelegramChat();
 
             IStorage storage = new MemoryStorage();
 

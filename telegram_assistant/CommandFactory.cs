@@ -9,7 +9,7 @@ namespace telegram_assistant
 {
     internal class CommandFactory
     {
-        public ICommand CreateCommand(string commandName, IStorage storage)
+        public ICommand? CreateCommand(string? commandName, IStorage storage)
         {
             if(commandName == "/store")
             {

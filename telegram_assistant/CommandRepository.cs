@@ -11,7 +11,7 @@ namespace telegram_assistant
     {
         //private ICommand lastCommand = null;
 
-        Dictionary<long, ICommand> chatLastCommand = new Dictionary<long, ICommand>();
+        Dictionary<long, ICommand?> chatLastCommand = new Dictionary<long, ICommand?>();
 
         public void Add(ICommand command, long id)
         {
@@ -29,6 +29,7 @@ namespace telegram_assistant
         public ICommand Get(long id)
         {
             //return lastCommand;
+
             
             return chatLastCommand[id];
             
@@ -44,13 +45,13 @@ namespace telegram_assistant
             {
                 if(chatLastCommand[id] != null)
                 {
-                    Console.WriteLine("tyt");
+                    
                     return true;
                 }
                 return false;
             }
             chatLastCommand.Add(id, null);
-            Console.WriteLine("sdec");
+            
             return false;
             
         }

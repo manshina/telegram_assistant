@@ -15,10 +15,12 @@ namespace telegram_assistant
             TelegramChat chat = new TelegramChat();
 
             IStorage storage = new MemoryStorage();
+            IStorage dbstorage = new DbStorage();
 
-            CommandHandler commandHandler = new CommandHandler(chat, storage);
+            CommandHandler commandHandler = new CommandHandler(chat, dbstorage);
 
             chat.Start();
+            
             
 
         }

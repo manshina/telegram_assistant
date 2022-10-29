@@ -10,7 +10,7 @@ namespace telegram_assistant
     internal class GetCommand : ICommand
     {
         private readonly IStorage _storage;
-        private int state = 0;
+        
         public GetCommand(IStorage storage)
         {
             _storage = storage;
@@ -18,20 +18,15 @@ namespace telegram_assistant
 
         public string Execute()
         {
-            state = 1;
+            
             return "Enter category";
         }
 
         public string ExecuteNext(string message, CommandRepository commandRepository, long id)
         {
-            if(state == 1)
-            {
-                commandRepository.Delete(id);
-                return GetEntity(message, id);
+            commandRepository.Delete(id);
+            return GetEntity(message, id);
 
-            }
-            return null;
-            
         }
         public string GetEntity(string category, long id)
         {

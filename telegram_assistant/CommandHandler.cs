@@ -23,10 +23,9 @@ namespace telegram_assistant
                 }
                 else
                 {
-                    var commandName = RecognizeCommand(chatMessage.Text);
-                    if (commandName != null)
+                    var command = commandFactory.CreateCommand(chatMessage.Text, Storage);
+                    if(command != null)
                     {
-                        var command = commandFactory.CreateCommand(commandName, Storage);
                         var commandResult = command.Execute();
                         commandRepository.Add(command, chatMessage.Chat.Id);
                         chat.ChatMessageSent(commandResult, chatMessage);
@@ -41,18 +40,18 @@ namespace telegram_assistant
             };
         }
 
-        public string? RecognizeCommand(string? message)
-        {
-            string getCommand = "/get";
-            string storeCommand = "/store";
+        //public string? RecognizeCommand(string? message)
+        //{
+        //    string getCommand = "/get";
+        //    string storeCommand = "/store";
 
-            if ((message == getCommand) || (message == storeCommand)){
-                return message;
-            }
-            return null;
+        //    if ((message == getCommand) || (message == storeCommand)){
+        //        return message;
+        //    }
+        //    return null;
 
 
             
-        }
+        //}
     }
 }

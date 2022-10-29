@@ -41,7 +41,7 @@ namespace telegram_assistant
 
             }
 
-            return null;
+            return "что то пошло не так, попробуйте повторить";
             
         }
         public string AddedCategory(string category)

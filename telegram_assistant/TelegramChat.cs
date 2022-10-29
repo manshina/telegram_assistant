@@ -13,7 +13,7 @@ namespace telegram_assistant
     {
         static ITelegramBotClient bot = new TelegramBotClient("5140134910:AAG9Sv3y6Xx2XSFWxUGZR8P-CamIlVfnMKU");
 
-        public event IChat.EventDelegate NewChatMessageRecived;
+        public event IChat.EventDelegate NewChatMessageRecived = delegate { };
 
         public async void ChatMessageSent(string answer, Message message)
         {
@@ -23,7 +23,7 @@ namespace telegram_assistant
         {
             
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
-            if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
+            if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message?.Text != null)
             {
                 await Task.Run(() => NewChatMessageRecived(update.Message));
             }

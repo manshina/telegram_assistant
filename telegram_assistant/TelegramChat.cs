@@ -11,7 +11,7 @@ namespace telegram_assistant
 {
     internal class TelegramChat : IChat
     {
-        static ITelegramBotClient bot = new TelegramBotClient("5140134910:AAG9Sv3y6Xx2XSFWxUGZR8P-CamIlVfnMKU");
+        static ITelegramBotClient bot = new TelegramBotClient("Token");
 
         public event IChat.EventDelegate NewChatMessageRecived = delegate { };
 
